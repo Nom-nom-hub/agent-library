@@ -28,29 +28,27 @@ Or install globally:
     agent-lib task "description" --context context
 """
 
-import os
-import sys
-import shutil
 import json
+import os
+import shutil
+import ssl
 import subprocess
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
-from datetime import datetime, timezone
 
+import httpx
+import truststore
 import typer
+from rich.align import Align
 from rich.console import Console
+from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
-from rich.live import Live
-from rich.align import Align
 from typer.core import TyperGroup
-
-import readchar
-import ssl
-import truststore
-import httpx
 
 ssl_context = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 client = httpx.Client(verify=ssl_context)
@@ -59,9 +57,23 @@ client = httpx.Client(verify=ssl_context)
 PERSONAS = {
     "architect": {
         "name": "Architect",
-        "expertise": ["system design", "architecture", "high-level planning", "optimization"],
+        "expertise": [
+            "system design",
+            "architecture",
+            "high-level planning",
+            "optimization",
+        ],
         "primary_tasks": ["architecture", "planning", "optimization"],
-        "keywords": ["design", "architecture", "structure", "plan", "diagram", "pattern", "scalability", "modularity"],
+        "keywords": [
+            "design",
+            "architecture",
+            "structure",
+            "plan",
+            "diagram",
+            "pattern",
+            "scalability",
+            "modularity",
+        ],
     },
     "implementer": {
         "name": "Implementer",
@@ -85,7 +97,15 @@ PERSONAS = {
         "name": "Researcher",
         "expertise": ["investigation", "knowledge gathering", "technology evaluation"],
         "primary_tasks": ["research", "investigation"],
-        "keywords": ["research", "investigate", "evaluate", "compare", "explore", "analyze", "study"],
+        "keywords": [
+            "research",
+            "investigate",
+            "evaluate",
+            "compare",
+            "explore",
+            "analyze",
+            "study",
+        ],
     },
     "documentarian": {
         "name": "Documentarian",
@@ -142,12 +162,13 @@ AGENT_CONFIG = {
 }
 
 BANNER = """
- █████╗ ██████╗ ███████╗███╗   ██╗████████╗
-██╔══██╗██╔══██╗██╔════╝████╗  ██║╚══██╔══╝
-███████║██║  ██║█████╗  ██╔██╗ ██║   ██║   
-██╔══██║██║  ██║██╔══╝  ██║╚██╗██║   ██║   
-██║  ██║██████╔╝███████╗██║ ╚████║   ██║   
-╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   
+    ░███      ░██████  ░██████████ ░███    ░██ ░██████████
+   ░██░██    ░██   ░██ ░██         ░████   ░██     ░██
+  ░██  ░██  ░██        ░██         ░██░██  ░██     ░██
+ ░█████████ ░██  █████ ░█████████  ░██ ░██ ░██     ░██
+ ░██    ░██ ░██     ██ ░██         ░██  ░██░██     ░██
+ ░██    ░██  ░██  ░███ ░██         ░██   ░████     ░██
+ ░██    ░██   ░█████░█ ░██████████ ░██    ░███     ░██
 """
 
 TAGLINE = "Agent Library - Dynamic Persona-Shifting Framework"
@@ -223,7 +244,10 @@ class StepTracker:
                 symbol = " "
 
             if detail_text:
-                line = f"{symbol} [white]{label}[/white] [bright_black]({detail_text})[/bright_black]"
+                line = (
+                    f"{symbol} [white]{label}[/white] "
+                    f"[bright_black]({detail_text})[/bright_black]"
+                )
             else:
                 line = f"{symbol} [white]{label}[/white]"
 
@@ -274,11 +298,11 @@ def callback(ctx: typer.Context):
 
 class ContextTracker:
     """Manages project state, decisions, and task history."""
-    
+
     def __init__(self, context_dir: Path = None):
         """
         Initialize context tracker.
-        
+
         Args:
             context_dir: Path to .agents/context/ directory
         """
@@ -287,7 +311,7 @@ class ContextTracker:
         self.context_dir = context_dir
         self.state_file = context_dir / "state.json"
         self.memory_file = context_dir / "memory.md"
-        
+
     def load_state(self) -> dict:
         """Load project state from JSON."""
         if self.state_file.exists():
@@ -299,54 +323,54 @@ class ContextTracker:
             "completed_tasks": [],
             "decisions": [],
         }
-    
+
     def save_state(self, state: dict) -> None:
         """Save project state to JSON."""
         self.context_dir.mkdir(parents=True, exist_ok=True)
         self.state_file.write_text(json.dumps(state, indent=2))
-    
+
     def record_task(self, description: str, personas: list[str], context: str = None) -> None:
         """Record a task execution in context."""
         state = self.load_state()
-        
+
         task_entry = {
             "description": description,
             "personas": personas,
             "context": context,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-        
+
         if "completed_tasks" not in state:
             state["completed_tasks"] = []
         state["completed_tasks"].append(task_entry)
-        
+
         state["active_personas"] = personas
-        
+
         self.save_state(state)
-    
+
     def record_decision(self, title: str, decision: str, reasoning: str = None) -> None:
         """Record a project decision."""
         state = self.load_state()
-        
+
         decision_entry = {
             "title": title,
             "decision": decision,
             "reasoning": reasoning,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-        
+
         if "decisions" not in state:
             state["decisions"] = []
         state["decisions"].append(decision_entry)
-        
+
         self.save_state(state)
-    
+
     def get_task_history(self, limit: int = 10) -> list[dict]:
         """Get recent task history."""
         state = self.load_state()
         tasks = state.get("completed_tasks", [])
         return tasks[-limit:]
-    
+
     def get_decisions(self) -> list[dict]:
         """Get all recorded decisions."""
         state = self.load_state()
@@ -355,21 +379,21 @@ class ContextTracker:
 
 class PersonaSelector:
     """Analyzes task descriptions and selects appropriate personas."""
-    
+
     @staticmethod
     def select_personas(task_description: str, task_context: Optional[str] = None) -> list[str]:
         """
         Select personas based on task description and context.
-        
+
         Args:
             task_description: Description of the task to perform
             task_context: Optional context (backend, frontend, testing, etc.)
-            
+
         Returns:
             List of persona keys to activate
         """
         task_text = (task_description + " " + (task_context or "")).lower()
-        
+
         # Score each persona based on keyword matches
         persona_scores = {}
         for persona_key, persona_info in PERSONAS.items():
@@ -383,7 +407,7 @@ class PersonaSelector:
                     score += 3
             if score > 0:
                 persona_scores[persona_key] = score
-        
+
         # If no keywords matched, use heuristics
         if not persona_scores:
             if any(word in task_text for word in ["build", "create", "add", "make"]):
@@ -395,16 +419,16 @@ class PersonaSelector:
             else:
                 # Default to implementer
                 persona_scores["implementer"] = 1
-        
+
         # Sort by score, return top personas (typically 1-3)
         sorted_personas = sorted(persona_scores.items(), key=lambda x: x[1], reverse=True)
         selected = [p[0] for p in sorted_personas[:3]]  # Up to 3 personas
-        
+
         # Always include reviewer for code-related tasks (except pure research/documentation)
         if any(p in selected for p in ["implementer", "debugger", "optimizer"]):
             if "reviewer" not in selected:
                 selected.append("reviewer")
-        
+
         return selected[:3]  # Cap at 3 personas
 
 
@@ -421,9 +445,15 @@ def check_tool(tool: str, tracker: StepTracker = None) -> bool:
 
 @app.command()
 def init(
-    project_name: str = typer.Argument(None, help="Name for your new project directory"),
-    ai: str = typer.Option(None, "--ai", help="AI assistant: claude, gemini, copilot, cursor-agent, or amp"),
-    here: bool = typer.Option(False, "--here", help="Initialize in current directory"),
+    project_name: str = typer.Argument(
+        None, help="Name for your new project directory"
+    ),
+    ai: str = typer.Option(
+        None, "--ai", help="AI assistant: claude, gemini, copilot, cursor-agent"
+    ),
+    here: bool = typer.Option(
+        False, "--here", help="Initialize in current directory"
+    ),
 ):
     """Initialize a new Agent Library project."""
     show_banner()
@@ -452,7 +482,7 @@ def init(
 
     # Create project structure
     tracker = StepTracker("Initialize Project")
-    
+
     tracker.add("dirs", "Create project directories")
     (project_path / ".agents").mkdir(exist_ok=True)
     (project_path / ".agents" / "personas").mkdir(exist_ok=True)
@@ -506,7 +536,7 @@ task_types:
 """
     (project_path / ".agents" / "config.yml").write_text(config_content)
     tracker.complete("config")
-    
+
     # Copy task templates to project
     tracker.add("tasks", "Copy task templates")
     template_dir = Path(__file__).parent.parent.parent / "templates" / "tasks"
@@ -523,9 +553,13 @@ task_types:
     # Initialize project context using script
     tracker.add("context", "Initialize project context")
     try:
-        script_path = Path(__file__).parent.parent.parent / "scripts" / "bash" / "create-project-context.sh"
-        if script_path.exists() and os.name != 'nt':
-            subprocess.run(["bash", str(script_path), str(project_path), project_name], check=True)
+        script_dir = Path(__file__).parent.parent.parent / "scripts" / "bash"
+        script_path = script_dir / "create-project-context.sh"
+        if script_path.exists() and os.name != "nt":
+            subprocess.run(
+                ["bash", str(script_path), str(project_path), project_name],
+                check=True,
+            )
         # Windows or script not found - create context directly
         (project_path / ".agents" / "context").mkdir(exist_ok=True)
         (project_path / ".agents" / "memory").mkdir(exist_ok=True)
@@ -596,12 +630,12 @@ def task(
 
     # Select personas based on task description
     selected_persona_keys = PersonaSelector.select_personas(description)
-    
+
     console.print("\n[bold]Persona Selection:[/bold]")
     selected_personas = [PERSONAS[key] for key in selected_persona_keys]
     persona_names = ", ".join([p["name"] for p in selected_personas])
     console.print(f"  [cyan]→[/cyan] {persona_names}")
-    
+
     console.print("\n[yellow]Note:[/yellow] Task execution with agent integration coming soon.")
 
 
@@ -612,7 +646,7 @@ def list(
     """List available personas or task types."""
     if item_type == "personas":
         console.print("[bold]Available Personas:[/bold]\n")
-        
+
         table = Table(title="Personas")
         table.add_column("Persona", style="cyan")
         table.add_column("Expertise", style="green")
@@ -628,7 +662,7 @@ def list(
         console.print(table)
     elif item_type == "tasks":
         console.print("[bold]Available Task Types:[/bold]\n")
-        
+
         task_types = [
             "planning",
             "architecture",

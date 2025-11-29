@@ -9,6 +9,7 @@ description = "Dynamic persona-shifting framework for AI agents that auto-adapt 
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
+license-files = { paths = ["LICENSE"] }
 authors = [
     { name = "Agent Library Contributors" }
 ]
@@ -46,6 +47,7 @@ dev = [
 agent-lib = "agent_lib:main"
 
 [tool.setuptools]
+package-dir = {"" = "src"}
 packages = ["agent_lib"]
 
 [tool.black]
@@ -55,4 +57,6 @@ target-version = ["py311"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "I"]
