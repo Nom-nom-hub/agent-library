@@ -1,0 +1,27 @@
+# Agent Library Code Owners
+@Nom-nom-hub
+
+# Root level files
+*.md @Nom-nom-hub
+pyproject.toml @Nom-nom-hub
+CHANGELOG.md @Nom-nom-hub
+
+# Source code
+src/ @Nom-nom-hub
+
+# Templates and configuration
+templates/ @Nom-nom-hub
+memory/ @Nom-nom-hub
+
+# CI/CD
+.github/ @Nom-nom-hub
+.devcontainer/ @Nom-nom-hub
+
+# Documentation
+docs/ @Nom-nom-hub
+README.md @Nom-nom-hub
+AGENTS.md @Nom-nom-hub
+PERSONAS.md @Nom-nom-hub
+
+# Tests
+tests/ @Nom-nom-hub
