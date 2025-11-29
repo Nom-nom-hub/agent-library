@@ -95,10 +95,11 @@ This package contains templates and configuration for using Agent Library with *
 - \`config.yml\` - Pre-configured for $agent
 EOF
     
-    # Create zip package
+    # Create zip package with absolute path
     PACKAGE_NAME="agent-lib-template-${agent}-v${VERSION}.zip"
+    RELEASE_DIR_ABS="$(cd "$RELEASE_DIR" && pwd)"
     cd "$TEMP_DIR"
-    zip -r "$RELEASE_DIR/$PACKAGE_NAME" . -q
+    zip -r "$RELEASE_DIR_ABS/$PACKAGE_NAME" . -q
     cd - > /dev/null
     
     # Cleanup
