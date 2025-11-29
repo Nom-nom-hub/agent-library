@@ -1,8 +1,5 @@
 """Tests for Agent Library CLI."""
 
-import pytest
-from agent_lib import app
-
 
 def test_cli_version():
     """Test CLI version command."""
