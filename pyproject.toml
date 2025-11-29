@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Dynamic persona-shifting framework for AI agents that auto-adapt to task context"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = "MIT"
 license-files = { paths = ["LICENSE"] }
 authors = [
     { name = "Agent Library Contributors" }
