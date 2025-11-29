@@ -445,15 +445,11 @@ def check_tool(tool: str, tracker: StepTracker = None) -> bool:
 
 @app.command()
 def init(
-    project_name: str = typer.Argument(
-        None, help="Name for your new project directory"
-    ),
+    project_name: str = typer.Argument(None, help="Name for your new project directory"),
     ai: str = typer.Option(
         None, "--ai", help="AI assistant: claude, gemini, copilot, cursor-agent"
     ),
-    here: bool = typer.Option(
-        False, "--here", help="Initialize in current directory"
-    ),
+    here: bool = typer.Option(False, "--here", help="Initialize in current directory"),
 ):
     """Initialize a new Agent Library project."""
     show_banner()
@@ -563,12 +559,15 @@ task_types:
         # Windows or script not found - create context directly
         (project_path / ".agents" / "context").mkdir(exist_ok=True)
         (project_path / ".agents" / "memory").mkdir(exist_ok=True)
-        context_state = json.dumps({
-            "project": {"name": project_name, "created": datetime.now().isoformat()},
-            "phase": "initialization",
-            "active_personas": [],
-            "completed_tasks": []
-        }, indent=2)
+        context_state = json.dumps(
+            {
+                "project": {"name": project_name, "created": datetime.now().isoformat()},
+                "phase": "initialization",
+                "active_personas": [],
+                "completed_tasks": [],
+            },
+            indent=2,
+        )
         (project_path / ".agents" / "context" / "state.json").write_text(context_state)
         tracker.complete("context")
     except Exception as e:
@@ -587,7 +586,7 @@ task_types:
             f"1. cd {project_name}\n"
             f"2. Review task templates in .agents/tasks/\n"
             f"3. Use your AI agent to execute tasks\n"
-            f"4. agent-lib task \"<description>\" to see persona selection",
+            f'4. agent-lib task "<description>" to see persona selection',
             border_style="green",
             padding=(1, 2),
         )
