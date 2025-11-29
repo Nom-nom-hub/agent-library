@@ -35,7 +35,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed changes.
 ## Installation
 
 \`\`\`bash
-uv tool install agent-lib --from git+https://github.com/user/agent-library.git@$VERSION
+uv tool install agent-lib --from git+https://github.com/Nom-nom-hub/agent-library.git@$VERSION
 \`\`\`
 
 ## Packages
