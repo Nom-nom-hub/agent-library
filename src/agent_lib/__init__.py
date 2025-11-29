@@ -127,55 +127,19 @@ PERSONAS = {
     },
 }
 
-# Agent configuration
+# Agent configuration with name, folder, install URL, and CLI tool requirement
 AGENT_CONFIG = {
-    "amp": {
-        "name": "Amp",
-        "folder": ".agents/",
-        "install_url": "https://ampcode.com/",
-        "requires_cli": True,
-    },
-    "auggie": {
-        "name": "Auggie",
-        "folder": ".auggie/",
-        "install_url": None,
-        "requires_cli": False,
-    },
-    "bob": {
-        "name": "Bob",
-        "folder": ".bob/",
-        "install_url": None,
+    "copilot": {
+        "name": "GitHub Copilot",
+        "folder": ".github/",
+        "install_url": None,  # IDE-based, no CLI check needed
         "requires_cli": False,
     },
     "claude": {
         "name": "Claude Code",
-        "folder": ".agents/",
+        "folder": ".claude/",
         "install_url": "https://docs.anthropic.com/en/docs/claude-code/setup",
         "requires_cli": True,
-    },
-    "codebuddy": {
-        "name": "CodeBuddy",
-        "folder": ".codebuddy/",
-        "install_url": None,
-        "requires_cli": False,
-    },
-    "codex": {
-        "name": "Codex",
-        "folder": ".codex/",
-        "install_url": None,
-        "requires_cli": False,
-    },
-    "copilot": {
-        "name": "GitHub Copilot",
-        "folder": ".github/",
-        "install_url": None,
-        "requires_cli": False,
-    },
-    "cursor-agent": {
-        "name": "Cursor",
-        "folder": ".cursor/",
-        "install_url": None,
-        "requires_cli": False,
     },
     "gemini": {
         "name": "Gemini CLI",
@@ -183,46 +147,82 @@ AGENT_CONFIG = {
         "install_url": "https://github.com/google-gemini/gemini-cli",
         "requires_cli": True,
     },
-    "kilocode": {
-        "name": "KiloCode",
-        "folder": ".kilocode/",
-        "install_url": None,
-        "requires_cli": False,
-    },
-    "opencode": {
-        "name": "OpenCode",
-        "folder": ".opencode/",
-        "install_url": None,
-        "requires_cli": False,
-    },
-    "q": {
-        "name": "Q",
-        "folder": ".q/",
-        "install_url": None,
+    "cursor-agent": {
+        "name": "Cursor",
+        "folder": ".cursor/",
+        "install_url": None,  # IDE-based
         "requires_cli": False,
     },
     "qwen": {
-        "name": "Qwen",
+        "name": "Qwen Code",
         "folder": ".qwen/",
-        "install_url": None,
-        "requires_cli": False,
+        "install_url": "https://github.com/QwenLM/qwen-code",
+        "requires_cli": True,
     },
-    "roo": {
-        "name": "Roo",
-        "folder": ".roo/",
-        "install_url": None,
-        "requires_cli": False,
+    "opencode": {
+        "name": "opencode",
+        "folder": ".opencode/",
+        "install_url": "https://opencode.ai",
+        "requires_cli": True,
     },
-    "shai": {
-        "name": "Shai",
-        "folder": ".shai/",
-        "install_url": None,
-        "requires_cli": False,
+    "codex": {
+        "name": "Codex CLI",
+        "folder": ".codex/",
+        "install_url": "https://github.com/openai/codex",
+        "requires_cli": True,
     },
     "windsurf": {
         "name": "Windsurf",
         "folder": ".windsurf/",
-        "install_url": None,
+        "install_url": None,  # IDE-based
+        "requires_cli": False,
+    },
+    "kilocode": {
+        "name": "Kilo Code",
+        "folder": ".kilocode/",
+        "install_url": None,  # IDE-based
+        "requires_cli": False,
+    },
+    "auggie": {
+        "name": "Auggie CLI",
+        "folder": ".augment/",
+        "install_url": "https://docs.augmentcode.com/cli/setup-auggie/install-auggie-cli",
+        "requires_cli": True,
+    },
+    "codebuddy": {
+        "name": "CodeBuddy",
+        "folder": ".codebuddy/",
+        "install_url": "https://www.codebuddy.ai/cli",
+        "requires_cli": True,
+    },
+    "roo": {
+        "name": "Roo Code",
+        "folder": ".roo/",
+        "install_url": None,  # IDE-based
+        "requires_cli": False,
+    },
+    "q": {
+        "name": "Amazon Q Developer CLI",
+        "folder": ".amazonq/",
+        "install_url": "https://aws.amazon.com/developer/learning/q-developer-cli/",
+        "requires_cli": True,
+    },
+    "amp": {
+        "name": "Amp",
+        "folder": ".agents/",
+        "install_url": "https://ampcode.com/manual#install",
+        "requires_cli": True,
+    },
+    "shai": {
+        "name": "SHAI",
+        "folder": ".shai/",
+        "install_url": "https://github.com/ovh/shai",
+        "requires_cli": True,
+    },
+    "bob": {
+        "name": "IBM Bob",
+        "folder": ".bob/",
+        "install_url": None,  # IDE-based
         "requires_cli": False,
     },
 }
