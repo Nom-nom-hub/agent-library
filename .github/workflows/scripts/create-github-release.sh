@@ -40,8 +40,27 @@ uv tool install agent-lib --from git+https://github.com/Nom-nom-hub/agent-librar
 
 ## Packages
 
+### Main Distribution
 - \`agent_lib-$VERSION-py3-none-any.whl\` - Python wheel
 - \`agent-lib-$VERSION.tar.gz\` - Source distribution
+
+### Agent-Specific Templates
+- \`agent-lib-template-amp-v$VERSION.zip\` - Templates for Amp
+- \`agent-lib-template-auggie-v$VERSION.zip\` - Templates for Auggie
+- \`agent-lib-template-bob-v$VERSION.zip\` - Templates for Bob
+- \`agent-lib-template-claude-v$VERSION.zip\` - Templates for Claude Code
+- \`agent-lib-template-codebuddy-v$VERSION.zip\` - Templates for CodeBuddy
+- \`agent-lib-template-codex-v$VERSION.zip\` - Templates for Codex
+- \`agent-lib-template-copilot-v$VERSION.zip\` - Templates for GitHub Copilot
+- \`agent-lib-template-cursor-agent-v$VERSION.zip\` - Templates for Cursor
+- \`agent-lib-template-gemini-v$VERSION.zip\` - Templates for Gemini CLI
+- \`agent-lib-template-kilocode-v$VERSION.zip\` - Templates for KiloCode
+- \`agent-lib-template-opencode-v$VERSION.zip\` - Templates for OpenCode
+- \`agent-lib-template-q-v$VERSION.zip\` - Templates for Q
+- \`agent-lib-template-qwen-v$VERSION.zip\` - Templates for Qwen
+- \`agent-lib-template-roo-v$VERSION.zip\` - Templates for Roo
+- \`agent-lib-template-shai-v$VERSION.zip\` - Templates for Shai
+- \`agent-lib-template-windsurf-v$VERSION.zip\` - Templates for Windsurf
 "
 
 # Create GitHub release

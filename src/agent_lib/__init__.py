@@ -129,17 +129,41 @@ PERSONAS = {
 
 # Agent configuration
 AGENT_CONFIG = {
+    "amp": {
+        "name": "Amp",
+        "folder": ".agents/",
+        "install_url": "https://ampcode.com/",
+        "requires_cli": True,
+    },
+    "auggie": {
+        "name": "Auggie",
+        "folder": ".auggie/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "bob": {
+        "name": "Bob",
+        "folder": ".bob/",
+        "install_url": None,
+        "requires_cli": False,
+    },
     "claude": {
         "name": "Claude Code",
         "folder": ".agents/",
         "install_url": "https://docs.anthropic.com/en/docs/claude-code/setup",
         "requires_cli": True,
     },
-    "gemini": {
-        "name": "Gemini CLI",
-        "folder": ".gemini/",
-        "install_url": "https://github.com/google-gemini/gemini-cli",
-        "requires_cli": True,
+    "codebuddy": {
+        "name": "CodeBuddy",
+        "folder": ".codebuddy/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "codex": {
+        "name": "Codex",
+        "folder": ".codex/",
+        "install_url": None,
+        "requires_cli": False,
     },
     "copilot": {
         "name": "GitHub Copilot",
@@ -153,11 +177,53 @@ AGENT_CONFIG = {
         "install_url": None,
         "requires_cli": False,
     },
-    "amp": {
-        "name": "Amp",
-        "folder": ".agents/",
-        "install_url": "https://ampcode.com/",
+    "gemini": {
+        "name": "Gemini CLI",
+        "folder": ".gemini/",
+        "install_url": "https://github.com/google-gemini/gemini-cli",
         "requires_cli": True,
+    },
+    "kilocode": {
+        "name": "KiloCode",
+        "folder": ".kilocode/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "opencode": {
+        "name": "OpenCode",
+        "folder": ".opencode/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "q": {
+        "name": "Q",
+        "folder": ".q/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "qwen": {
+        "name": "Qwen",
+        "folder": ".qwen/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "roo": {
+        "name": "Roo",
+        "folder": ".roo/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "shai": {
+        "name": "Shai",
+        "folder": ".shai/",
+        "install_url": None,
+        "requires_cli": False,
+    },
+    "windsurf": {
+        "name": "Windsurf",
+        "folder": ".windsurf/",
+        "install_url": None,
+        "requires_cli": False,
     },
 }
 
@@ -447,7 +513,9 @@ def check_tool(tool: str, tracker: StepTracker = None) -> bool:
 def init(
     project_name: str = typer.Argument(None, help="Name for your new project directory"),
     ai: str = typer.Option(
-        None, "--ai", help="AI assistant: claude, gemini, copilot, cursor-agent"
+        None,
+        "--ai",
+        help="AI assistant: amp, auggie, bob, claude, codebuddy, codex, copilot, cursor-agent, gemini, kilocode, opencode, q, qwen, roo, shai, windsurf",
     ),
     here: bool = typer.Option(False, "--here", help="Initialize in current directory"),
 ):
