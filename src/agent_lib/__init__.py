@@ -515,7 +515,7 @@ def init(
     ai: str = typer.Option(
         None,
         "--ai",
-        help="AI assistant: amp, auggie, bob, claude, codebuddy, codex, copilot, cursor-agent, gemini, kilocode, opencode, q, qwen, roo, shai, windsurf",
+        help="AI assistant to use (see agent-lib list agents for all available)",
     ),
     here: bool = typer.Option(False, "--here", help="Initialize in current directory"),
 ):
